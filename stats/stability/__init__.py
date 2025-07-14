@@ -7,8 +7,7 @@
 
 from .core import *
 
-__name__ = 'independent'
-__version__ = '0.0.1 beta'
+__name__ = 'stability'
 __all__ = [
     'series',
     'parallel',

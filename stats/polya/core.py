@@ -96,6 +96,26 @@ def sampling_with_replacement(b: int, r: int, m: int, n: int, /) -> float:
     p = b / (b + r)
     return comb(m + n, m) * (p ** m) * (1 - p) ** n
 
+def binom(k: int, n: int, p: float) -> float:
+    """
+    binom(k, n, p)
+        已知次品率的情况下，计算出来的概率值
+    Parameters
+    ----------
+    k: int
+        抽到了k个次品
+    n: int
+        一共有n个产品
+    p: float
+        次品率
+
+    Returns
+    -------
+    out : float
+        算得的概率值
+    """
+    return comb(n, k) * p ** k * (1 - p) ** (n - k)
+
 
 def infection(b: int, r: int, m: int, n: int, c: int, /) -> float:
     """

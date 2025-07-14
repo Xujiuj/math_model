@@ -6,5 +6,6 @@ __all__ = [
     'sampling_without_replacement',
     'sampling_with_replacement',
     'infection',
-    'security'
+    'security',
+    'binom'
 ]

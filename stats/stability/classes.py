@@ -6,7 +6,10 @@
 """
 from functools import reduce
 from abc import abstractmethod, ABC
+import sys
 import math
+from ..polya import binom
+
 
 
 class Base(ABC):
@@ -59,10 +62,11 @@ class Base(ABC):
         if isinstance(self.r, float):
             if self.r > 1 or self.r < 0:
                 raise ValueError("r must be between 0 and 1")
-        else:
+            self.r = math.ceil(self.num * self.r)
+        elif isinstance(self.r, int):
             if self.r > self.num:
                 raise IndexError("r must be less than num")
-            self.r = math.ceil(self.num * self.r)
+
 
     @abstractmethod
     def compute(self):
@@ -101,11 +105,19 @@ class Vote(Base):
         表决系统
     """
 
-    def __init__(self, p: float | list[float], num: int, r: int | float = None):
-        super().__init__(p, num, r)
-
+    def __init__(self, p: float | list[float], num: int, r: int | float):
+        super().__init__(1 - p, num, r)
 
     def compute(self):
         p = 0
+        # 尽可能减少循环次数
         if self.r > self.num / 2:
-            for i in range(self.r, self.num + 1):
+            # 如果良好的部分过半，就直接计算可靠性
+            for i, _p in zip(range(self.r, self.num + 1), self.p[self.r:]):
+                p += binom(i, self.num, 1 - _p)
+        else:
+            # 否则计算不可靠性，再用1-p得到可靠性
+            for i, _p in zip(range(self.r), self.p[:self.r]):
+                p += binom(i, self.num, 1 - _p)
+            p = 1 - p
+        return p
