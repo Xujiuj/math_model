@@ -4,12 +4,11 @@
     @time  : 2025/7/14 11:24
     @file  : classes.py
 """
-from functools import reduce
-from abc import abstractmethod, ABC
-import sys
 import math
-from ..polya import binom
+from abc import abstractmethod, ABC
+from functools import reduce
 
+from ..polya import binom
 
 
 class Base(ABC):
@@ -106,14 +105,14 @@ class Vote(Base):
     """
 
     def __init__(self, p: float | list[float], num: int, r: int | float):
-        super().__init__(1 - p, num, r)
+        super().__init__(p, num, r)
 
     def compute(self):
         p = 0
         # 尽可能减少循环次数
         if self.r > self.num / 2:
             # 如果良好的部分过半，就直接计算可靠性
-            for i, _p in zip(range(self.r, self.num + 1), self.p[self.r:]):
+            for i, _p in zip(range(self.r, self.num + 1), self.p[self.r - 1:]):
                 p += binom(i, self.num, 1 - _p)
         else:
             # 否则计算不可靠性，再用1-p得到可靠性
