@@ -85,6 +85,14 @@ def vote(num: int, p: float | list[float], r: int| float) -> float:
     -------
     out: float
         该系统的可靠性
+
+    Examples
+    --------
+    >>> vote(3, 0.1, 2)
+    0.972
+
+    >>> vote(10, 0.1, 9)
+    0.7361
     """
     vo = Vote(p, num, r)
     return round(vo.compute(), 5)
