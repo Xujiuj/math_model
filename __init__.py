@@ -5,8 +5,10 @@
     @file  : __init__.py
 """
 from . import stats
+from . import plot
 
 print('欢迎来到数模加油站')
 __all__ = [
-    'stats'
+    'stats',
+    'plot'
 ]
